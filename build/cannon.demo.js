@@ -150,9 +150,12 @@ CANNON.Demo = function(options){
         normalMeshCache.hideCached();
     }
 
-    // Create physics world
-    var world = this.world = new CANNON.World();
-    world.broadphase = new CANNON.NaiveBroadphase();
+    // Create ammo.js physics world
+    var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+    var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
+    var overlappingPairCache = new Ammo.btDbvtBroadphase();
+    var solver = new Ammo.btSequentialImpulseConstraintSolver();
+    var world = this.world = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 
     var renderModes = ["solid","wireframe"];
 
