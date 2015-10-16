@@ -39,11 +39,15 @@
         //world.quatNormalizeSkip = 3; // ...and we do not have to normalize every step.
 
         // ground plane
-        var groundShape = new CANNON.Plane(new CANNON.Vec3(0,0,1));
-        var groundBody = new CANNON.Body({ mass: 0 });
-        groundBody.addShape(groundShape);
-        groundBody.position.set(0,0,0);
-        world.addBody(groundBody);
+        var groundShape = new Ammo.btStaticPlaneShape(new Ammo.btVector3(0,0,1), 0);
+        var groundTransform = new Ammo.btTransform();
+        groundTransform.setIdentity();
+        groundTransform.setOrigin(new Ammo.btVector3(0, 0, 0));
+        var localInertia = new Ammo.btVector3(0, 0, 0);
+        var myMotionState = new Ammo.btDefaultMotionState(groundTransform);
+        var rbInfo = new Ammo.btRigidBodyConstructionInfo(0, myMotionState, groundShape, localInertia);
+        var groundBody = new Ammo.btRigidBody(rbInfo);
+        world.addRigidBody(groundBody);
         demo.addVisual(groundBody);
 
         // plane -x
