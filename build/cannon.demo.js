@@ -1002,8 +1002,9 @@ CANNON.Demo.prototype.shape2mesh = function(body){
             var s = this.settings;
             mesh.scale.set(s.particleSize,s.particleSize,s.particleSize);
             break;
+        */
 
-        case CANNON.Shape.types.PLANE:
+        else if (body.shape instanceof Ammo.btStaticPlaneShape) {
             var geometry = new THREE.PlaneGeometry(10, 10, 4, 4);
             mesh = new THREE.Object3D();
             var submesh = new THREE.Object3D();
@@ -1015,8 +1016,9 @@ CANNON.Demo.prototype.shape2mesh = function(body){
             ground.receiveShadow = true;
 
             mesh.add(submesh);
-            break;
+        }
 
+        /*
         case CANNON.Shape.types.BOX:
             var box_geometry = new THREE.BoxGeometry(  shape.halfExtents.x*2,
                                                         shape.halfExtents.y*2,

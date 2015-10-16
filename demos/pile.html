@@ -48,6 +48,7 @@
           var myMotionState = new Ammo.btDefaultMotionState(transform);
           var rbInfo = new Ammo.btRigidBodyConstructionInfo(0, myMotionState, shape, localInertia);
           var body = new Ammo.btRigidBody(rbInfo);
+          body.shape = shape;
           return body;
         }
         var groundBody = makePlane(0, 0, 1, 0);
