@@ -102,7 +102,7 @@
             if(bodies.length>80){
                 var b = bodies.shift();
                 demo.removeVisual(b);
-                world.remove(b);
+                world.removeRigidBody(b);
                 Ammo.destroy(b); // XXX
             }
         },100);
