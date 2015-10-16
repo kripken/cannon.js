@@ -922,7 +922,7 @@ CANNON.Demo.prototype.addVisual = function(body){
     var s = this.settings;
     // What geometry should be used?
     var mesh;
-    if(body instanceof CANNON.Body){
+    if(body instanceof Ammo.btRigidBody){
         mesh = this.shape2mesh(body);
     }
     if(mesh) {
@@ -981,8 +981,10 @@ CANNON.Demo.prototype.shape2mesh = function(body){
     var wireframe = this.settings.renderMode === "wireframe";
     var obj = new THREE.Object3D();
 
-    for (var l = 0; l < body.shapes.length; l++) {
-        var shape = body.shapes[l];
+    var shapes = [body.getCollisionShape()];
+
+    for (var l = 0; l < shapes.length; l++) {
+        var shape = shapes[l];
 
         var mesh;
 
