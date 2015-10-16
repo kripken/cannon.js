@@ -981,20 +981,20 @@ CANNON.Demo.prototype.shape2mesh = function(body){
     var wireframe = this.settings.renderMode === "wireframe";
     var obj = new THREE.Object3D();
 
-    var shapes = [body.getCollisionShape()];
+    var shapes = [];
+    if (body.shape) shapes.push(body.shape);
 
     for (var l = 0; l < shapes.length; l++) {
         var shape = shapes[l];
 
         var mesh;
 
-        switch(shape.type){
-
-        case CANNON.Shape.types.SPHERE:
+        if (body.shape instanceof Ammo.btSphereShape) {
             var sphere_geometry = new THREE.SphereGeometry( shape.radius, 8, 8);
             mesh = new THREE.Mesh( sphere_geometry, this.currentMaterial );
-            break;
+        }
 
+        /*
         case CANNON.Shape.types.PARTICLE:
             mesh = new THREE.Mesh( this.particleGeo, this.particleMaterial );
             var s = this.settings;
@@ -1102,6 +1102,10 @@ CANNON.Demo.prototype.shape2mesh = function(body){
         default:
             throw "Visual type not recognized: "+shape.type;
         }
+
+        */
+
+        if (!mesh) throw "Visual type not recognized: " + shape;
 
         mesh.receiveShadow = true;
         mesh.castShadow = true;
