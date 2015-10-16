@@ -550,10 +550,10 @@ CANNON.Demo = function(options){
         }
 
         // Add a random value to each line every second
-        world.addEventListener("postStep",function(evt) {
+        /* XXXworld.addEventListener("postStep",function(evt) {
             for(var label in world.profile)
                 lines[label].append(world.time * 1000, world.profile[label]);
-        });
+        }); */
 
         // Add to SmoothieChart
         var i=0;
