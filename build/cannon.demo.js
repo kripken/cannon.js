@@ -838,9 +838,9 @@ CANNON.Demo = function(options){
             that.scene.remove(mesh);
         }
         // Remove all constraints
-        while(world.constraints.length){
+        /* XXXwhile(world.constraints.length){
             world.removeConstraint(world.constraints[0]);
-        }
+        }*/
 
         // Run the user defined "build scene" function
         scenes[n]();
