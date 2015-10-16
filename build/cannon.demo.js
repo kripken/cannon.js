@@ -846,14 +846,14 @@ CANNON.Demo = function(options){
         scenes[n]();
 
         // Read the newly set data to the gui
-        settings.iterations = world.solver.iterations;
+        /* XXXsettings.iterations = world.solver.iterations;
         settings.gx = world.gravity.x+0.0;
         settings.gy = world.gravity.y+0.0;
         settings.gz = world.gravity.z+0.0;
         settings.quatNormalizeSkip = world.quatNormalizeSkip;
         settings.quatNormalizeFast = world.quatNormalizeFast;
         updategui();
-
+        */
         restartGeometryCaches();
     }
 
