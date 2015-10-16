@@ -259,6 +259,7 @@ CANNON.Demo = function(options){
         }
     }
 
+    var transform = new Ammo.btTransform();
 
     function updateVisuals(){
         var N = bodies.length;
@@ -266,10 +267,11 @@ CANNON.Demo = function(options){
         // Read position data into visuals
         for(var i=0; i<N; i++){
             var b = bodies[i], visual = visuals[i];
-            visual.position.copy(b.position);
-            if(b.quaternion){
-                visual.quaternion.copy(b.quaternion);
-            }
+            b.getMotionState().getWorldTransform(transform);
+            var origin = transform.getOrigin();
+            visual.position.set(origin.x(), origin.y(), origin.z());
+            var rotation = transform.getRotation();
+            visual.quaternion.set(rotation.x(), rotation.y(), rotation.z(), rotation.w());
         }
 
         // Render contacts
