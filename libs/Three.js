@@ -1893,7 +1893,7 @@ THREE.Vector3.prototype = {
 	},
 
 	copy: function ( v ) {
-if (!v) alert('sad ' + new Error().stack);
+
 		this.x = v.x;
 		this.y = v.y;
 		this.z = v.z;
