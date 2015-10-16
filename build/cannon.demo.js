@@ -990,7 +990,7 @@ CANNON.Demo.prototype.shape2mesh = function(body){
         var mesh;
 
         if (body.shape instanceof Ammo.btSphereShape) {
-            var sphere_geometry = new THREE.SphereGeometry( shape.radius, 8, 8);
+            var sphere_geometry = new THREE.SphereGeometry( shape.getRadius(), 8, 8);
             mesh = new THREE.Mesh( sphere_geometry, this.currentMaterial );
         }
 
@@ -1122,10 +1122,14 @@ CANNON.Demo.prototype.shape2mesh = function(body){
             }
         }
 
+        /*
         var o = body.shapeOffsets[l];
         var q = body.shapeOrientations[l];
         mesh.position.set(o.x, o.y, o.z);
         mesh.quaternion.set(q.x, q.y, q.z, q.w);
+        */
+        mesh.position.set(0, 0, 0);
+        mesh.quaternion.set(0, 0, 0, 1);
 
         obj.add(mesh);
     }
