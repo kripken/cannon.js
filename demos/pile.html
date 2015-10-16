@@ -39,35 +39,35 @@
         //world.quatNormalizeSkip = 3; // ...and we do not have to normalize every step.
 
         // ground plane
-        function makePlane(x, y, z, w, ox, oy, oz) {
+        function makePlane(x, y, z, w) {
           var shape = new Ammo.btStaticPlaneShape(new Ammo.btVector3(x, y, z), w);
           var transform = new Ammo.btTransform();
           transform.setIdentity();
-          transform.setOrigin(new Ammo.btVector3(ox, oy, oz));
+          transform.setOrigin(new Ammo.btVector3(0, 0, 0));
           var localInertia = new Ammo.btVector3(0, 0, 0);
           var myMotionState = new Ammo.btDefaultMotionState(transform);
           var rbInfo = new Ammo.btRigidBodyConstructionInfo(0, myMotionState, shape, localInertia);
           var body = new Ammo.btRigidBody(rbInfo);
           return body;
         }
-        var groundBody = makePlane(0, 0, 1, 0, 0, 0, 0);
+        var groundBody = makePlane(0, 0, 1, 0);
         world.addRigidBody(groundBody);
         demo.addVisual(groundBody);
 
         // plane -x
-        var planeXmin = makePlane(0, 1, 0, 0, -5, 0, 0); // XXX need -5 in w? other places too
+        var planeXmin = makePlane(0, 1, 0, -5);
         world.addRigidBody(planeXmin);
 
         // Plane +x
-        var planeXmax = makePlane(0, 1, 0, 0, 5, 0, 0); // XXX need 5 in w? other places too
+        var planeXmax = makePlane(0, -1, 0, -5);
         world.addRigidBody(planeXmax);
 
         // Plane -y
-        var planeYmin = makePlane(1, 0, 0, 0, 0, -5, 0); // XXX need -5 in w? other places too
+        var planeYmin = makePlane(1, 0, 0, -5);
         world.addRigidBody(planeYmin);
 
         // Plane +y
-        var planeYmax = makePlane(1, 0, 0, 0, 0, 5, 0); // XXX need 5 in w? other places too
+        var planeYmax = makePlane(-1, 0, 0, -5);
         world.addRigidBody(planeYmax);
 
         var bodies = [];
