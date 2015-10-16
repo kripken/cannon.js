@@ -39,47 +39,35 @@
         //world.quatNormalizeSkip = 3; // ...and we do not have to normalize every step.
 
         // ground plane
-        var groundShape = new Ammo.btStaticPlaneShape(new Ammo.btVector3(0,0,1), 0);
-        var groundTransform = new Ammo.btTransform();
-        groundTransform.setIdentity();
-        groundTransform.setOrigin(new Ammo.btVector3(0, 0, 0));
-        var localInertia = new Ammo.btVector3(0, 0, 0);
-        var myMotionState = new Ammo.btDefaultMotionState(groundTransform);
-        var rbInfo = new Ammo.btRigidBodyConstructionInfo(0, myMotionState, groundShape, localInertia);
-        var groundBody = new Ammo.btRigidBody(rbInfo);
+        function makePlane(x, y, z, w, ox, oy, oz) {
+          var shape = new Ammo.btStaticPlaneShape(new Ammo.btVector3(x, y, z), w);
+          var transform = new Ammo.btTransform();
+          transform.setIdentity();
+          transform.setOrigin(new Ammo.btVector3(ox, oy, oz));
+          var localInertia = new Ammo.btVector3(0, 0, 0);
+          var myMotionState = new Ammo.btDefaultMotionState(transform);
+          var rbInfo = new Ammo.btRigidBodyConstructionInfo(0, myMotionState, shape, localInertia);
+          var body = new Ammo.btRigidBody(rbInfo);
+          return body;
+        }
+        var groundBody = makePlane(0, 0, 1, 0, 0, 0, 0);
         world.addRigidBody(groundBody);
         demo.addVisual(groundBody);
 
         // plane -x
-        var planeShapeXmin = new CANNON.Plane();
-        var planeXmin = new CANNON.Body({ mass: 0 });
-        planeXmin.addShape(planeShapeXmin);
-        planeXmin.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0),Math.PI/2);
-        planeXmin.position.set(-5,0,0);
+        var planeXmin = makePlane(0, 1, 0, 0, -5, 0, 0); // XXX need -5 in w? other places too
         world.addBody(planeXmin);
 
         // Plane +x
-        var planeShapeXmax = new CANNON.Plane();
-        var planeXmax = new CANNON.Body({ mass: 0 });
-        planeXmax.addShape(planeShapeXmax);
-        planeXmax.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0),-Math.PI/2);
-        planeXmax.position.set(5,0,0);
+        var planeXmax = makePlane(0, 1, 0, 0, 5, 0, 0); // XXX need 5 in w? other places too
         world.addBody(planeXmax);
 
         // Plane -y
-        var planeShapeYmin = new CANNON.Plane();
-        var planeYmin = new CANNON.Body({ mass: 0 });
-        planeYmin.addShape(planeShapeYmin);
-        planeYmin.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
-        planeYmin.position.set(0,-5,0);
+        var planeYmin = makePlane(1, 0, 0, 0, 0, -5, 0); // XXX need -5 in w? other places too
         world.addBody(planeYmin);
 
         // Plane +y
-        var planeShapeYmax = new CANNON.Plane();
-        var planeYmax = new CANNON.Body({ mass: 0 });
-        planeYmax.addShape(planeShapeYmax);
-        planeYmax.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),Math.PI/2);
-        planeYmax.position.set(0,5,0);
+        var planeYmax = makePlane(1, 0, 0, 0, 0, 5, 0); // XXX need 5 in w? other places too
         world.addBody(planeYmax);
 
         var bodies = [];
