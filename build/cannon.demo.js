@@ -881,7 +881,7 @@ CANNON.Demo = function(options){
         };
     }
 };
-CANNON.Demo.prototype = new CANNON.EventTarget();
+CANNON.Demo.prototype = {}; // XXX new CANNON.EventTarget();
 CANNON.Demo.constructor = CANNON.Demo;
 
 CANNON.Demo.prototype.setGlobalSpookParams = function(k,d,h){
