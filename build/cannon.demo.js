@@ -712,14 +712,14 @@ CANNON.Demo = function(options){
 
         if(!lastCallTime){
             // last call time not saved, cant guess elapsed time. Take a simple step.
-            world.step(timeStep);
+            world.stepSimulation(1000*timeStep, 1);
             lastCallTime = now;
             return;
         }
 
         var timeSinceLastCall = now - lastCallTime;
 
-        world.step(timeStep, timeSinceLastCall, settings.maxSubSteps);
+        world.stepSimulation(1000*timeSinceLastCall, 2); // XXX take into account timeStep here too? , settings.maxSubSteps instead of '2'?
 
         lastCallTime = now;
     }
