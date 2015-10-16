@@ -75,17 +75,24 @@
         interval = setInterval(function(){
             // Sphere
             i++;
-            var sphereShape = new CANNON.Sphere(size);
-            var b1 = new CANNON.Body({
-                mass: 5,
-                position: new CANNON.Vec3(
-                    2*size*Math.sin(i),
-                    2*size*Math.cos(i),
-                    7*2*size
-                )
-            });
-            b1.addShape(sphereShape);
-            world.addBody(b1);
+            var sphereShape = new Ammo.btSphereShape(size); // XXX ficm
+
+            var startTransform = new Ammo.btTransform();
+            startTransform.setIdentity();
+            var localInertia = new Ammo.btVector3(0, 0, 0);
+            sphereShape.calculateLocalInertia(5, localInertia);
+
+            var myMotionState = new Ammo.btDefaultMotionState(startTransform);
+            var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, sphereShape, localInertia);
+            var body = new Ammo.btRigidBody(rbInfo);
+
+            var origin = body.getWorldTransform().getOrigin();
+            origin.setX(2*size*Math.sin(i));
+            origin.setY(2*size*Math.cos(i));
+            origin.setZ(7*2*size);
+            body.activate(); // XXX
+
+            world.addRigidBody(b1);
             demo.addVisual(b1);
             bodies.push(b1);
 
