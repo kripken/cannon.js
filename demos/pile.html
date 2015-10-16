@@ -56,22 +56,23 @@
 
         // plane -x
         var planeXmin = makePlane(0, 1, 0, 0, -5, 0, 0); // XXX need -5 in w? other places too
-        world.addBody(planeXmin);
+        world.addRigidBody(planeXmin);
 
         // Plane +x
         var planeXmax = makePlane(0, 1, 0, 0, 5, 0, 0); // XXX need 5 in w? other places too
-        world.addBody(planeXmax);
+        world.addRigidBody(planeXmax);
 
         // Plane -y
         var planeYmin = makePlane(1, 0, 0, 0, 0, -5, 0); // XXX need -5 in w? other places too
-        world.addBody(planeYmin);
+        world.addRigidBody(planeYmin);
 
         // Plane +y
         var planeYmax = makePlane(1, 0, 0, 0, 0, 5, 0); // XXX need 5 in w? other places too
-        world.addBody(planeYmax);
+        world.addRigidBody(planeYmax);
 
         var bodies = [];
         var i = 0;
+
         interval = setInterval(function(){
             // Sphere
             i++;
@@ -80,17 +81,19 @@
             var startTransform = new Ammo.btTransform();
             startTransform.setIdentity();
             var localInertia = new Ammo.btVector3(0, 0, 0);
-            sphereShape.calculateLocalInertia(5, localInertia);
+            var mass = 5;
+            sphereShape.calculateLocalInertia(mass, localInertia);
 
             var myMotionState = new Ammo.btDefaultMotionState(startTransform);
             var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, sphereShape, localInertia);
-            var body = new Ammo.btRigidBody(rbInfo);
+            var b1 = new Ammo.btRigidBody(rbInfo);
+            b1.shape = sphereShape;
 
-            var origin = body.getWorldTransform().getOrigin();
+            var origin = b1.getWorldTransform().getOrigin();
             origin.setX(2*size*Math.sin(i));
             origin.setY(2*size*Math.cos(i));
             origin.setZ(7*2*size);
-            body.activate(); // XXX
+            b1.activate(); // XXX
 
             world.addRigidBody(b1);
             demo.addVisual(b1);
@@ -100,6 +103,7 @@
                 var b = bodies.shift();
                 demo.removeVisual(b);
                 world.remove(b);
+                Ammo.destroy(b); // XXX
             }
         },100);
     });
