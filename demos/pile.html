@@ -74,21 +74,23 @@
         var bodies = [];
         var i = 0;
 
+        var sphereShape = new Ammo.btSphereShape(size);
+        var startTransform = new Ammo.btTransform();
+        startTransform.setIdentity();
+        var localInertia = new Ammo.btVector3(0, 0, 0);
+        var mass = 5;
+        sphereShape.calculateLocalInertia(mass, localInertia);
+
         interval = setInterval(function(){
             // Sphere
             i++;
-            var sphereShape = new Ammo.btSphereShape(size); // XXX ficm
-
-            var startTransform = new Ammo.btTransform();
-            startTransform.setIdentity();
-            var localInertia = new Ammo.btVector3(0, 0, 0);
-            var mass = 5;
-            sphereShape.calculateLocalInertia(mass, localInertia);
 
             var myMotionState = new Ammo.btDefaultMotionState(startTransform);
             var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, sphereShape, localInertia);
             var b1 = new Ammo.btRigidBody(rbInfo);
             b1.shape = sphereShape;
+            b1.rbInfo = rbInfo;
+            b1.motionState = myMotionState;
 
             var origin = b1.getWorldTransform().getOrigin();
             origin.setX(2*size*Math.sin(i));
@@ -103,7 +105,9 @@
                 var b = bodies.shift();
                 demo.removeVisual(b);
                 world.removeRigidBody(b);
-                Ammo.destroy(b); // XXX
+                Ammo.destroy(b.rbInfo);
+                Ammo.destroy(b.motionState);
+                Ammo.destroy(b);
             }
         },100);
     });
