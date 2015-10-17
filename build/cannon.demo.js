@@ -259,18 +259,15 @@ CANNON.Demo = function(options){
         }
     }
 
-    var transform = new Ammo.btTransform();
-
     function updateVisuals(){
         var N = bodies.length;
 
         // Read position data into visuals
         for(var i=0; i<N; i++){
             var b = bodies[i], visual = visuals[i];
-            b.getMotionState().getWorldTransform(transform);
-            var origin = transform.getOrigin();
+            var origin = b.getWorldTransform().getOrigin();
             visual.position.set(origin.x(), origin.y(), origin.z());
-            var rotation = transform.getRotation();
+            var rotation = b.getWorldTransform().getRotation();
             visual.quaternion.set(rotation.x(), rotation.y(), rotation.z(), rotation.w());
         }
 
